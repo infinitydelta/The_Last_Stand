@@ -10,7 +10,7 @@ public class Score : MonoBehaviour {
 	void Start () {
 		int i = Random.Range (0, 3);
 		print (i);
-		audio.PlayOneShot (music [i]);
+		//audio.PlayOneShot (music [i]);
 	}
 	
 	// Update is called once per frame

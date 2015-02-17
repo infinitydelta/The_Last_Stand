@@ -13,7 +13,7 @@ public class StartGame : MonoBehaviour {
 	void Update () {
 		timer += Time.deltaTime;
 
-		if (timer >= 1f) {
+		if (timer >= 1.5f) {
 			guiText.enabled = true;
 
 		}

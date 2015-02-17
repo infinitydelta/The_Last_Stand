@@ -13,8 +13,10 @@ public class Star : MonoBehaviour {
 	}
 	
 	// Update is called once per frame
+    
 	void Update () {
-		transform.Translate(negX* Time.deltaTime, 0, 0, Space.World);
+        //move to right of screen if reach end (left)
+        transform.Translate(negX* Time.deltaTime, 0, 0, Space.World);
 		
 		if (transform.position.x <= Camera.main.ViewportToWorldPoint(Vector3.zero).x) {
 			float y = Random.Range(0f, 1f);

@@ -57,7 +57,7 @@ public class Ship : MonoBehaviour {
 			Camera.main.GetComponent<CameraShake>().shakeAmount = .05f;
 			Camera.main.GetComponent<CameraShake>().shake = .1f;
 			int i = Random.Range(0, 3);
-			audio.PlayOneShot(gunsound[0]);
+			//audio.PlayOneShot(gunsound[0]);
 			timer = 0;
 		}
 	}

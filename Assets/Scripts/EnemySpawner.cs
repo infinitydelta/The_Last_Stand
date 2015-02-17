@@ -3,27 +3,41 @@ using System.Collections;
 
 public class EnemySpawner : MonoBehaviour {
 	public GameObject[] enemies;
-	
+    public GameObject player;
+    bool playerDead = false;
+
 	float timer = 0;
-	float spawnCooldown = 1f;
-	int spawned;
+	float spawnCooldown = 2f;
+    bool spawn = false;
+    int startTimer = 5;
+	int spawned = 0;
 	int increaseIndex = 50;
 	// Use this for initialization
 	void Start () {
-	
+        player = GameObject.Find("hull");
+        //player = Transform.FindChild("hull");
+        playerDead = player.GetComponent<Hull>().dead;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		timer += Time.deltaTime;
-		if (timer >= spawnCooldown) {
+        
+        //start delay
+        if (timer >= startTimer) spawn = true;
+
+		if (spawn && timer >= spawnCooldown) {
 			spawnCommonEnemy();
 			timer = 0;
 		}
 		if (spawned >= increaseIndex) {
 			spawnCooldown *= .8f;
-			increaseIndex *= 2;
+			increaseIndex += 50;
 		}
+        if (player.GetComponent<Hull>().dead)
+        {
+            Destroy(gameObject);
+        }
 		
 	}
 	
@@ -35,15 +49,9 @@ public class EnemySpawner : MonoBehaviour {
 		Instantiate(enemies[index], randomEnemySpawn(), Quaternion.identity);
 	}
 	
-//	void spawnEnemy() {
-//		if (Random.Range(0,2) == 1) {
-//			Instantiate (enemy1, randomEnemySpawn() , Quaternion.identity);
-//		}
-//		else {
-//			Instantiate (enemy2, randomEnemySpawn() , Quaternion.identity);
-//		}
-//	}
 	
+
+    //spawn enemy offscreen
 	Vector3 randomEnemySpawn() {
 		float offset = .03f;
 		Vector3 spawnPoint = new Vector3(0,0,10);

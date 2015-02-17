@@ -38,8 +38,8 @@ public class Enemy : MonoBehaviour {
 			faceDirection(player);
 			
 		}
-		//orbit player
-		
+		//orbit around player
+		//move towards player if outside of orbit range
 		if (Vector2.Distance(player.transform.position, transform.position) > orbit) {
 			rigidbody2D.AddForce((player.transform.position - transform.position).normalized * speed * Time.deltaTime);
 		}
@@ -47,6 +47,7 @@ public class Enemy : MonoBehaviour {
 			rigidbody2D.velocity *= .98f;
 			//rigidbody2D.AddForce(-(player.transform.position - transform.position).normalized * speed );
 		}
+        //faster if closer
 		transform.RotateAround(player.transform.position, new Vector3(0,0,1), Time.deltaTime * (orbitSpeed + Mathf.Sign(orbitSpeed) * .3f/Vector2.Distance(player.transform.position, transform.position)) ); //orbit around player
 		
 		if (Vector2.Distance(transform.position, player.transform.position) > maxDis) {
@@ -64,6 +65,27 @@ public class Enemy : MonoBehaviour {
 		
 		}
 	}
+
+    public void endGameDeath()
+    {
+        GameObject pieces = (GameObject)Instantiate(broken, transform.position, transform.rotation);
+        pieces.rigidbody2D.angularDrag = 1;
+        pieces.rigidbody2D.angularVelocity = rigidbody2D.angularVelocity;
+        pieces.GetComponent<BrokenWhole>().playExplosion = false;
+
+
+        Transform[] allChildren = GetComponentsInChildren<Transform>();
+        foreach (Transform child in allChildren)
+        {
+            if (child.particleSystem != null)
+            {
+                child.particleSystem.loop = false;
+                child.transform.parent = pieces.gameObject.transform;
+            }
+        }
+
+        Destroy(this.gameObject);
+    }
 	
 	void death() {
 		GameObject pieces = (GameObject) Instantiate(broken, transform.position, transform.rotation);
@@ -89,6 +111,8 @@ public class Enemy : MonoBehaviour {
 			if (hp <= 40) {
 				GameObject leak = (GameObject) Instantiate(explosionlong, other.contacts[0].point, transform.rotation);
 				leak.transform.parent = gameObject.transform;
+                //Destroy(gameObject, 2);
+                Invoke("death", 2);
 			}
 		}
 
@@ -98,6 +122,7 @@ public class Enemy : MonoBehaviour {
 			if (hp <= 40) {
 				GameObject leak = (GameObject) Instantiate(explosionlong, other.contacts[0].point, transform.rotation);
 				leak.transform.parent = gameObject.transform;
+                Invoke("death", 2);
 			}
 		}
 		

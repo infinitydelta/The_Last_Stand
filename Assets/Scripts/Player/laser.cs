@@ -7,7 +7,7 @@ public class laser : MonoBehaviour {
 	Vector2 vel;
 	// Use this for initialization
 	void Start () {
-		Destroy(this.gameObject, 3);
+		Destroy(this.gameObject, 1);
 		vel = new Vector2(Mathf.Cos(transform.rotation.eulerAngles.z * Mathf.Deg2Rad) * speed, speed * Mathf.Sin(transform.rotation.eulerAngles.z * Mathf.Deg2Rad));
 		rigidbody2D.velocity = vel;
 	}

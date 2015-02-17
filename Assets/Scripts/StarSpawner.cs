@@ -11,8 +11,8 @@ public class StarSpawner : MonoBehaviour {
 			GameObject newStar = (GameObject) Instantiate(star, pos, Quaternion.identity);
 			float scale = Random.Range(.1f, 1.3f);
 			newStar.transform.localScale = new Vector3(scale, scale, scale);
-			newStar.light.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
-			newStar.light.range = Random.Range(.1f, .4f);
+			//newStar.light.color = new Color(Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f), Random.Range(0f, 1f));
+			//newStar.light.range = Random.Range(.1f, .4f);
 		}
 	}
 	

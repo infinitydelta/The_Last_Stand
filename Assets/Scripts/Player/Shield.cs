@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using System.Collections;
 
 public class Shield : MonoBehaviour {
 	public GameObject hitExplosion;
 	public float shield;
-	public GUIText shieldHUD;
+	public Text shieldHUD;
+    //public Text ui;
 	public GUIText energyHUD;
 	public AudioClip[] sounds;
 	float timer = 0;
@@ -51,10 +53,12 @@ public class Shield : MonoBehaviour {
 				collider2D.enabled = true;
 			}
 		}
-		
-		if (shield > max) {
-			shield = max;
-		}
+
+        if (shield > max)
+        {
+            shield = max;
+        }
+        else if (shield < 0) shield = 0;
 		
 		//end super charge
 		if (chargeTimer > 2f) {

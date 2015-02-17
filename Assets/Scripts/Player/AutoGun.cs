@@ -90,7 +90,7 @@ public class AutoGun : MonoBehaviour {
 			//cooldown = Random.Range(10f, 15f);
 			canShoot = false;
 			
-			audio.PlayOneShot(sound);
+			//audio.PlayOneShot(sound);
 			timer = 0;
 		}
 	}
