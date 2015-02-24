@@ -2,10 +2,16 @@
 using System.Collections;
 
 public class BrokenPlayer : MonoBehaviour {
-    Vector3 vel;
+    public Vector3 vel;
 	// Use this for initialization
 	void Start () {
-        vel = new Vector3(Random.Range(-.5f, .5f), Random.Range(-.5f, .5f), 0);
+        //if no predetermined movement in x
+        if (vel.x == 0)
+        {
+            vel = new Vector3(Random.Range(-1f, 1f), vel.y, 0);
+        }
+        vel *= Random.Range(.1f, .5f);
+        //vel = new Vector3(Random.Range(-.5f, .5f), Random.Range(-.5f, .5f), 0);
 	}
 	
 	// Update is called once per frame

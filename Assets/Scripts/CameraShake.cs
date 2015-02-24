@@ -18,6 +18,7 @@ public class CameraShake : MonoBehaviour
 	
 	void Awake()
 	{
+        Screen.orientation = ScreenOrientation.Landscape;
 		if (camTransform == null)
 		{
 			camTransform = GetComponent(typeof(Transform)) as Transform;

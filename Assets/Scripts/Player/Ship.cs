@@ -11,7 +11,7 @@ public class Ship : MonoBehaviour {
 	float stoppedShootingTime = 0;
 	float cooldown = .1f;
 	
-	float rotationSpeed = 5;
+	float rotationSpeed = 250;
 	// Use this for initialization
 	void Start () {
 		canShoot = false;
@@ -56,8 +56,9 @@ public class Ship : MonoBehaviour {
 			//Camera.main.transform.Translate(Random.insideUnitCircle, 0);
 			Camera.main.GetComponent<CameraShake>().shakeAmount = .05f;
 			Camera.main.GetComponent<CameraShake>().shake = .1f;
-			int i = Random.Range(0, 3);
-			//audio.PlayOneShot(gunsound[0]);
+			//int i = Random.Range(0, 3);
+            audio.volume = .015f;
+            audio.PlayOneShot(gunsound[0]);
 			timer = 0;
 		}
 	}
@@ -69,7 +70,7 @@ public class Ship : MonoBehaviour {
 		Vector3 hurr = new Vector3( moz.x, moz.y, 0);
 		float angle = Mathf.Atan2(hurr.y - transform.position.y, hurr.x - transform.position.x) * Mathf.Rad2Deg;
 		//print (hurr);
-		transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0,0,angle), rotationSpeed);
+		transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0,0,angle), rotationSpeed * Time.deltaTime);
 		
 		
 	}

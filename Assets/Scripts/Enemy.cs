@@ -8,6 +8,11 @@ public class Enemy : MonoBehaviour {
 	float orbit;
 	float speed;
 	int maxDis = 35;
+    Vector3 prevPos;
+    Vector3 currPos;
+    double oldx, oldy;
+    double newx, newy;
+    float deltax, deltay;
 	
 	public GameObject broken;
 	public GameObject explosion;
@@ -25,11 +30,15 @@ public class Enemy : MonoBehaviour {
 		}
 		speed = Random.Range(100f, 200f);
 		//rigidbody2D.AddForce((player.transform.position - transform.position).normalized * speed * 50);
-		
+        prevPos = transform.position;
+        currPos = transform.position;
 	}
 	
 	// Update is called once per frame
 	void Update () {
+        float fps = 1f / Time.deltaTime;
+        //prevPos = currPos;
+
 		//if spinning out of control
 		if (rigidbody2D.angularVelocity > 5) {
 			transform.Translate(-1 * Time.deltaTime, 0, 0, Space.World);
@@ -44,15 +53,30 @@ public class Enemy : MonoBehaviour {
 			rigidbody2D.AddForce((player.transform.position - transform.position).normalized * speed * Time.deltaTime);
 		}
 		else {
-			rigidbody2D.velocity *= .98f;
+            //rigidbody2D.velocity = ( (Vector2)(rigidbody2D.velocity) - (Vector2)((player.transform.position - transform.position).normalized) );
+			rigidbody2D.velocity *= .9f;
 			//rigidbody2D.AddForce(-(player.transform.position - transform.position).normalized * speed );
 		}
         //faster if closer
 		transform.RotateAround(player.transform.position, new Vector3(0,0,1), Time.deltaTime * (orbitSpeed + Mathf.Sign(orbitSpeed) * .3f/Vector2.Distance(player.transform.position, transform.position)) ); //orbit around player
-		
+        //currPos = transform.position;
+        
+        newx = transform.position.x;
+        newy = transform.position.y;
+        oldx = prevPos.x;
+        oldy = prevPos.y;
+        deltax = (float)(newx - oldx);
+        deltay = (float)(newy - oldy);
+        prevPos = transform.position;
 		if (Vector2.Distance(transform.position, player.transform.position) > maxDis) {
 			Destroy(gameObject);
 		}
+        //print("prev: " + prevPos);
+        //print("curr: " + currPos);
+        //print("oldx: " + oldx + ", oldy: " + oldy );
+        //print("newx: " + newx + ", newy: " + newy);
+
+        //print(deltax  + ", " + deltay);
 
 	}
 	
@@ -89,7 +113,10 @@ public class Enemy : MonoBehaviour {
 	
 	void death() {
 		GameObject pieces = (GameObject) Instantiate(broken, transform.position, transform.rotation);
-		pieces.rigidbody2D.angularDrag = 1;
+        pieces.GetComponent<BrokenWhole>().oldx = deltax / Time.deltaTime;
+        pieces.GetComponent<BrokenWhole>().oldy = deltay/ Time.deltaTime;
+
+        pieces.rigidbody2D.angularDrag = 1;
 		pieces.rigidbody2D.angularVelocity = rigidbody2D.angularVelocity ;
 		
 		
@@ -112,7 +139,7 @@ public class Enemy : MonoBehaviour {
 				GameObject leak = (GameObject) Instantiate(explosionlong, other.contacts[0].point, transform.rotation);
 				leak.transform.parent = gameObject.transform;
                 //Destroy(gameObject, 2);
-                Invoke("death", 2);
+                Invoke("death", 4);
 			}
 		}
 
@@ -122,7 +149,7 @@ public class Enemy : MonoBehaviour {
 			if (hp <= 40) {
 				GameObject leak = (GameObject) Instantiate(explosionlong, other.contacts[0].point, transform.rotation);
 				leak.transform.parent = gameObject.transform;
-                Invoke("death", 2);
+                Invoke("death", 4);
 			}
 		}
 		

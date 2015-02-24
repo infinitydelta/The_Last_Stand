@@ -7,7 +7,7 @@ public class EnemySpawner : MonoBehaviour {
     bool playerDead = false;
 
 	float timer = 0;
-	float spawnCooldown = 2f;
+	float spawnCooldown = 1.5f;
     bool spawn = false;
     int startTimer = 5;
 	int spawned = 0;

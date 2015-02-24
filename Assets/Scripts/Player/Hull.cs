@@ -33,6 +33,7 @@ public class Hull : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetMouseButtonDown(1)) hp -= (int)(100);
 		if (dead ) {
 			timer += Time.deltaTime;
             if (timer >= explosionDelay && deathExplosions < 16)
@@ -52,11 +53,14 @@ public class Hull : MonoBehaviour {
 
                 //Instantiate(ship)
                 playerBroken.SetActive(true);
+                /*
                 GameObject[] enemies = GameObject.FindGameObjectsWithTag("enemy");
                 foreach (GameObject enemy in enemies) {
                     enemy.GetComponent<Enemy>().endGameDeath();
                 }
-                Destroy(transform.parent.gameObject);
+                */
+                transform.parent.gameObject.SetActive(false);
+                //Destroy(transform.parent.gameObject);
             }
 			if (timer >= 3 && messaged == false) {
 
@@ -70,6 +74,7 @@ public class Hull : MonoBehaviour {
 		}
 		armor.color = new Color (1f, (float) hp/maxHP, (float) hp/maxHP);
 		armor.text = "ARMOR " + hp;
+
 
 		
 	}
